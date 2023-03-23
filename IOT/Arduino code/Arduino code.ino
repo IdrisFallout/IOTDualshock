@@ -2,6 +2,11 @@
 
 #define buzzerPin 2
 #define greenLed 3
+// shift register
+#define stcp_Pin 6
+#define shcp_Pin 5
+#define ds_Pin 4
+
 
 bool button0State = false;
 bool button9State = false;
@@ -11,11 +16,18 @@ String button_clicked;
 String axis_name;
 String axis_value;
 
+const byte continuos_strip[] = {0B10000000, 0B11000000, 0B11100000, 0B11110000, 0B11111000, 0B11111100, 0B11111110, 0B11111111};
+int continuos_strip_position = 0;
+
 void setup() {
   Serial.begin(9600);  // Start serial communication at 9600 baud
   pinMode(greenLed, OUTPUT);
   pinMode(buzzerPin, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
+
+  pinMode(stcp_Pin, OUTPUT);
+  pinMode(shcp_Pin, OUTPUT);
+  pinMode(ds_Pin, OUTPUT);
 }
 
 void loop() {
@@ -23,6 +35,9 @@ void loop() {
     String s = Serial.readStringUntil('\n');  // Read the incoming string until newline character
     parseString(s);
   }
+  digitalWrite(stcp_Pin, LOW);
+  shiftOut(ds_Pin, shcp_Pin, LSBFIRST, continuos_strip[continuos_strip_position]);
+  digitalWrite(stcp_Pin, HIGH);
 }
 
 void trigger_action() {
@@ -56,9 +71,13 @@ void trigger_action() {
   }else if (button_clicked == "12") {
     // do something
   }else if (button_clicked == "13") {
-    // do something
+    if(continuos_strip_position > 0 && continuos_strip_position <= 7){
+      continuos_strip_position--;
+    }
   }else if (button_clicked == "14") {
-    // do something
+    if(continuos_strip_position >= 0 && continuos_strip_position < 7){
+      continuos_strip_position++;
+    }
   }else if (button_clicked == "15") {
     // do something
   }
