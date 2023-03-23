@@ -3,6 +3,10 @@
 #define buzzerPin 2
 #define greenLed 3
 
+bool button0State = false;
+bool button9State = false;
+bool button10State = false;
+
 String button_clicked;
 String axis_name;
 String axis_value;
@@ -22,18 +26,42 @@ void loop() {
 }
 
 void trigger_action() {
-  if (button_clicked == "10") {
-    digitalWrite(buzzerPin, HIGH);
-    digitalWrite(LED_BUILTIN, HIGH);
-  } else if (button_clicked == "9") {
-    digitalWrite(buzzerPin, LOW);
-    digitalWrite(LED_BUILTIN, LOW);
-  }else if(button_clicked == "3"){
-    digitalWrite(greenLed, HIGH);
-  }else if(button_clicked == "0"){
-    digitalWrite(greenLed, LOW);
+  if (button_clicked == "0") {
+    button0State = !button0State;
+    digitalWrite(greenLed, button0State ? HIGH : LOW);
+  } else if (button_clicked == "1") {
+    // do something
+  }else if (button_clicked == "2") {
+    // do something
+  }else if (button_clicked == "3") {
+    // do something
+  } else if (button_clicked == "4") {
+    // do something
+  }else if (button_clicked == "5") {
+    // do something
+  }else if (button_clicked == "6") {
+    // do something
+  }else if (button_clicked == "7") {
+    // do something
+  }else if (button_clicked == "8") {
+    // do something
+  }else if (button_clicked == "9") {
+    button9State = !button9State;
+    digitalWrite(LED_BUILTIN, button9State ? HIGH : LOW);
+  } else if (button_clicked == "10") {
+    button10State = !button10State;
+    digitalWrite(buzzerPin, button10State ? HIGH : LOW);
+  }else if (button_clicked == "11") {
+    // do something
+  }else if (button_clicked == "12") {
+    // do something
+  }else if (button_clicked == "13") {
+    // do something
+  }else if (button_clicked == "14") {
+    // do something
+  }else if (button_clicked == "15") {
+    // do something
   }
-  // Serial.println(message);
 }
 
 void parseString(String s) {
