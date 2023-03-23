@@ -17,7 +17,10 @@ String axis_name;
 String axis_value;
 
 const byte continuos_strip[] = {0B10000000, 0B11000000, 0B11100000, 0B11110000, 0B11111000, 0B11111100, 0B11111110, 0B11111111};
+const byte discrete_strip[] = {0B10000000, 0B01000000, 0B00100000, 0B00010000, 0B00001000, 0B00000100, 0B00000010, 0B00000001};
 int continuos_strip_position = 0;
+
+bool is_strip_mode = true;
 
 void setup() {
   Serial.begin(9600);  // Start serial communication at 9600 baud
@@ -35,9 +38,17 @@ void loop() {
     String s = Serial.readStringUntil('\n');  // Read the incoming string until newline character
     parseString(s);
   }
-  digitalWrite(stcp_Pin, LOW);
-  shiftOut(ds_Pin, shcp_Pin, LSBFIRST, continuos_strip[continuos_strip_position]);
-  digitalWrite(stcp_Pin, HIGH);
+
+  if(is_strip_mode == true){
+    digitalWrite(stcp_Pin, LOW);
+    shiftOut(ds_Pin, shcp_Pin, LSBFIRST, continuos_strip[continuos_strip_position]);
+    digitalWrite(stcp_Pin, HIGH);
+  }else{
+    digitalWrite(stcp_Pin, LOW);
+    shiftOut(ds_Pin, shcp_Pin, LSBFIRST, discrete_strip[continuos_strip_position]);
+    digitalWrite(stcp_Pin, HIGH);
+  }
+
 }
 
 void trigger_action() {
@@ -53,7 +64,7 @@ void trigger_action() {
   } else if (button_clicked == "4") {
     // do something
   }else if (button_clicked == "5") {
-    // do something
+    is_strip_mode = !is_strip_mode;
   }else if (button_clicked == "6") {
     // do something
   }else if (button_clicked == "7") {
@@ -71,11 +82,11 @@ void trigger_action() {
   }else if (button_clicked == "12") {
     // do something
   }else if (button_clicked == "13") {
-    if(continuos_strip_position > 0 && continuos_strip_position <= 7){
+    if(continuos_strip_position >= 0 && continuos_strip_position <= 7){
       continuos_strip_position--;
     }
   }else if (button_clicked == "14") {
-    if(continuos_strip_position >= 0 && continuos_strip_position < 7){
+    if(continuos_strip_position >= -1 && continuos_strip_position < 7){
       continuos_strip_position++;
     }
   }else if (button_clicked == "15") {
