@@ -30,6 +30,7 @@ def make_request(message):
         send += "None"
 
     client_socket.send(str(send).encode() + b'\n')
+    print(send)
 
 
 def send_message(message):
@@ -52,6 +53,64 @@ def send_message(message):
     make_request(message)
 
 
+def process_axis(axis_name, axis_value):
+    new_axis_value = ""
+    if axis_name == "axis_0":
+        if axis_value < -0.5:
+            new_axis_value = "-1.0"
+        elif axis_value > 0.5:
+            new_axis_value = "1.0"
+        else:
+            new_axis_value = "0.0"
+        return ["left_x", new_axis_value]
+    elif axis_name == "axis_1":
+        if axis_value < -0.5:
+            new_axis_value = "1.0"
+        elif axis_value > 0.5:
+            new_axis_value = "-1.0"
+        else:
+            new_axis_value = "0.0"
+        return ["left_y", new_axis_value]
+    elif axis_name == "axis_2":
+        if axis_value < -0.5:
+            new_axis_value = "-1.0"
+        elif axis_value > 0.5:
+            new_axis_value = "1.0"
+        else:
+            new_axis_value = "0.0"
+        return ["right_x", new_axis_value]
+    elif axis_name == "axis_3":
+        if axis_value < -0.5:
+            new_axis_value = "1.0"
+        elif axis_value > 0.5:
+            new_axis_value = "-1.0"
+        else:
+            new_axis_value = "0.0"
+        return ["right_y", new_axis_value]
+    elif axis_name == "axis_4":
+        if axis_value < -0.5:
+            new_axis_value = "-1.0"
+        elif axis_value > 0.5:
+            new_axis_value = "1.0"
+        else:
+            return
+        return ["left_trigger", new_axis_value]
+    elif axis_name == "axis_5":
+        if axis_value < -0.5:
+            new_axis_value = "-1.0"
+        elif axis_value > 0.5:
+            new_axis_value = "1.0"
+        else:
+            return
+        return ["right_trigger", new_axis_value]
+    else:
+        return [axis_name, axis_value]
+
+
+def optimize_message(message):
+    return message
+
+
 if joystick_count > 0:
     joystick = pygame.joystick.Joystick(0)
     joystick.init()
@@ -68,7 +127,7 @@ if joystick_count > 0:
                 # An axis was moved
                 axis_name = "axis_" + str(event.axis)
                 axis_value = event.value
-                data[1] = [axis_name, axis_value]
+                data[1] = optimize_message(process_axis(axis_name, axis_value))
 
             send_message(data)
 
