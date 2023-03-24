@@ -12,6 +12,10 @@ client_socket.connect((host, 80))
 toggle = [None, None]
 counter = 0
 
+mystring_buffer = ["", ""]
+mystring_counter = 0
+the_message = ["", ""]
+
 # Initialize Pygame
 pygame.init()
 joystick_count = pygame.joystick.get_count()
@@ -108,7 +112,20 @@ def process_axis(axis_name, axis_value):
 
 
 def optimize_message(message):
-    return message
+    global mystring_buffer, mystring_counter
+    mystring = str(message)
+    if mystring_counter == 0:
+        mystring_buffer[0] = mystring
+        mystring_counter = 1
+    elif mystring_counter == 1:
+        mystring_buffer[1] = mystring
+        mystring_counter = 0
+
+    if mystring_buffer[0] != mystring_buffer[1]:
+        if message is not None:
+            return message
+    else:
+        return
 
 
 if joystick_count > 0:
