@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include <Servo.h>
 
 #define buzzerPin 2
@@ -97,8 +96,18 @@ void trigger_action() {
     digitalWrite(buzzerPin, button10State ? HIGH : LOW);
   } else if (button_clicked == "11") {
     // do something
+    if(is_servo_precision_mode == false){
+      if(servo_speed >= 5 && servo_speed <= 500){
+        servo_speed -= 5;
+      }
+    }
   } else if (button_clicked == "12") {
     // do something
+    if(is_servo_precision_mode == false){
+      if(servo_speed >= 5 && servo_speed < 500){
+        servo_speed += 5;
+      }
+    }
   } else if (button_clicked == "13") {
     if (continuos_strip_position >= 0 && continuos_strip_position <= 7) {
       continuos_strip_position--;
