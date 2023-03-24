@@ -4,7 +4,7 @@ import pygame
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # get the ip of your esp8266
-host = '192.168.1.110'
+host = '192.168.137.110'
 message = 0
 
 # connect to the server

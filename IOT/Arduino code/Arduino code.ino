@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <Servo.h>
 
 #define buzzerPin 2
 #define greenLed 3
@@ -7,6 +8,7 @@
 #define shcp_Pin 5
 #define ds_Pin 4
 
+#define servo_Pin 7
 
 bool button0State = false;
 bool button9State = false;
@@ -22,8 +24,23 @@ int continuos_strip_position = 0;
 
 bool is_strip_mode = true;
 
+bool left_trigger_is_down = false;
+bool right_trigger_is_down = false;
+
+unsigned long last_right_trigger_time = 0;
+unsigned long last_left_trigger_time = 0;
+
+int servo_speed = 5;
+
+Servo myservo;
+int servo_angle = 0;
+bool is_servo_precision_mode = true;
+
 void setup() {
   Serial.begin(9600);  // Start serial communication at 9600 baud
+  myservo.attach(servo_Pin);
+  myservo.write(servo_angle);
+
   pinMode(greenLed, OUTPUT);
   pinMode(buzzerPin, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
@@ -38,6 +55,8 @@ void loop() {
     String s = Serial.readStringUntil('\n');  // Read the incoming string until newline character
     parseString(s);
   }
+
+  handle_triggers();
 
   if (is_strip_mode == true) {
     digitalWrite(stcp_Pin, LOW);
@@ -90,26 +109,65 @@ void trigger_action() {
     }
   } else if (button_clicked == "15") {
     // do something
+    is_servo_precision_mode = !is_servo_precision_mode;
   }
 
   // Serial.println(axis_value + ":");
   // handle Analog inputs ie. joystick and trigger
   if (axis_name == "right_trigger") {
     float axis_value_float = axis_value.toFloat();  // convert the string to a float
-    if (axis_value_float == -1.0) {
-      Serial.println("stop");
-    } else if (axis_value_float == 1.0) {
-      Serial.println("move clockwise");
+    if (axis_value_float == 1.0) {
+      right_trigger_is_down = true;
+      if (servo_angle >= 0 && servo_angle < 180) {
+        if (is_servo_precision_mode == true) {
+          servo_angle++;
+        } else {
+          // increase the angle in a loop until axis_value_float is equal to -1.0
+        }
+      }
+    } else if (axis_value_float == -1.0) {
+      right_trigger_is_down = false;
     }
   } else if (axis_name == "left_trigger") {
     float axis_value_float = axis_value.toFloat();  // convert the string to a float
-    if (axis_value_float == -1.0) {
-      Serial.println("stop");
-    } else if (axis_value_float == 1.0) {
-      Serial.println("move anticlockwise");
+    if (axis_value_float == 1.0) {
+      left_trigger_is_down = true;
+      if (servo_angle > 0 && servo_angle <= 180) {
+        if (is_servo_precision_mode == true) {
+          servo_angle--;
+        } else {
+        }
+      }
+    } else if (axis_value_float == -1.0) {
+      left_trigger_is_down = false;
     }
   }
+
+  myservo.write(servo_angle);
 }
+
+void handle_triggers() {
+  if (is_servo_precision_mode == false) {
+    unsigned long current_time = millis();  // get the current time
+    if (right_trigger_is_down == true) {
+      // Serial.println("right trigger down");
+      if (servo_angle >= 0 && servo_angle < 180 && current_time - last_right_trigger_time >= servo_speed) {  // check if 100 ms have passed
+        servo_angle++;
+        last_right_trigger_time = current_time;  // update the last movement time
+      }
+    }
+    if (left_trigger_is_down == true) {
+      // Serial.println("left trigger down");
+      if (servo_angle > 0 && servo_angle <= 180 && current_time - last_left_trigger_time >= servo_speed) {  // check if 100 ms have passed
+        servo_angle--;
+        last_left_trigger_time = current_time;  // update the last movement time
+      }
+    }
+  }
+
+  myservo.write(servo_angle);
+}
+
 
 void parseString(String s) {
   String output = "";
