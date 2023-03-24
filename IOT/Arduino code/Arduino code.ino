@@ -104,7 +104,7 @@ void trigger_action() {
   } else if (button_clicked == "12") {
     // do something
     if(is_servo_precision_mode == false){
-      if(servo_speed >= 5 && servo_speed < 500){
+      if(servo_speed >= 0 && servo_speed < 500){
         servo_speed += 5;
       }
     }
