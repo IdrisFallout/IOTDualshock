@@ -16,8 +16,8 @@ String button_clicked;
 String axis_name;
 String axis_value;
 
-const byte continuos_strip[] = {0B10000000, 0B11000000, 0B11100000, 0B11110000, 0B11111000, 0B11111100, 0B11111110, 0B11111111};
-const byte discrete_strip[] = {0B10000000, 0B01000000, 0B00100000, 0B00010000, 0B00001000, 0B00000100, 0B00000010, 0B00000001};
+const byte continuos_strip[] = { 0B10000000, 0B11000000, 0B11100000, 0B11110000, 0B11111000, 0B11111100, 0B11111110, 0B11111111 };
+const byte discrete_strip[] = { 0B10000000, 0B01000000, 0B00100000, 0B00010000, 0B00001000, 0B00000100, 0B00000010, 0B00000001 };
 int continuos_strip_position = 0;
 
 bool is_strip_mode = true;
@@ -39,16 +39,15 @@ void loop() {
     parseString(s);
   }
 
-  if(is_strip_mode == true){
+  if (is_strip_mode == true) {
     digitalWrite(stcp_Pin, LOW);
     shiftOut(ds_Pin, shcp_Pin, LSBFIRST, continuos_strip[continuos_strip_position]);
     digitalWrite(stcp_Pin, HIGH);
-  }else{
+  } else {
     digitalWrite(stcp_Pin, LOW);
     shiftOut(ds_Pin, shcp_Pin, LSBFIRST, discrete_strip[continuos_strip_position]);
     digitalWrite(stcp_Pin, HIGH);
   }
-
 }
 
 void trigger_action() {
@@ -57,40 +56,58 @@ void trigger_action() {
     digitalWrite(greenLed, button0State ? HIGH : LOW);
   } else if (button_clicked == "1") {
     // do something
-  }else if (button_clicked == "2") {
+  } else if (button_clicked == "2") {
     // do something
-  }else if (button_clicked == "3") {
+  } else if (button_clicked == "3") {
     // do something
   } else if (button_clicked == "4") {
     // do something
-  }else if (button_clicked == "5") {
+  } else if (button_clicked == "5") {
     is_strip_mode = !is_strip_mode;
-  }else if (button_clicked == "6") {
+  } else if (button_clicked == "6") {
     // do something
-  }else if (button_clicked == "7") {
+  } else if (button_clicked == "7") {
     // do something
-  }else if (button_clicked == "8") {
+  } else if (button_clicked == "8") {
     // do something
-  }else if (button_clicked == "9") {
+  } else if (button_clicked == "9") {
     button9State = !button9State;
     digitalWrite(LED_BUILTIN, button9State ? HIGH : LOW);
   } else if (button_clicked == "10") {
     button10State = !button10State;
     digitalWrite(buzzerPin, button10State ? HIGH : LOW);
-  }else if (button_clicked == "11") {
+  } else if (button_clicked == "11") {
     // do something
-  }else if (button_clicked == "12") {
+  } else if (button_clicked == "12") {
     // do something
-  }else if (button_clicked == "13") {
-    if(continuos_strip_position >= 0 && continuos_strip_position <= 7){
+  } else if (button_clicked == "13") {
+    if (continuos_strip_position >= 0 && continuos_strip_position <= 7) {
       continuos_strip_position--;
     }
-  }else if (button_clicked == "14") {
-    if(continuos_strip_position >= -1 && continuos_strip_position < 7){
+  } else if (button_clicked == "14") {
+    if (continuos_strip_position >= -1 && continuos_strip_position < 7) {
       continuos_strip_position++;
     }
-  }else if (button_clicked == "15") {
+  } else if (button_clicked == "15") {
     // do something
+  }
+
+  // Serial.println(axis_value + ":");
+  // handle Analog inputs ie. joystick and trigger
+  if (axis_name == "right_trigger") {
+    float axis_value_float = axis_value.toFloat();  // convert the string to a float
+    if (axis_value_float == -1.0) {
+      Serial.println("stop");
+    } else if (axis_value_float == 1.0) {
+      Serial.println("move clockwise");
+    }
+  } else if (axis_name == "left_trigger") {
+    float axis_value_float = axis_value.toFloat();  // convert the string to a float
+    if (axis_value_float == -1.0) {
+      Serial.println("stop");
+    } else if (axis_value_float == 1.0) {
+      Serial.println("move anticlockwise");
+    }
   }
 }
 
@@ -118,5 +135,5 @@ void parseString(String s) {
   output += s4;
 
   trigger_action();
-  Serial.println(output);
+  // Serial.println(output);
 }
