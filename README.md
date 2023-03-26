@@ -1,4 +1,5 @@
 # IOTDualshock
+## Introduction
 This project makes it possible to use a Dualshock 4 controller to control IOT devices on an ESP8266 over Network.
 The basic principle behind how to achieve this is by the use sockets. Essentially, the ESP8266 acts as the socket server where data can be posted to from the clients. In this case I wrote a simple python script that ensures a ps4 controller is connected before connecting to the ESP8266 which is our server.
 The script packages the input events of the controller as data before sending it to the ESP8266.
