@@ -34,3 +34,4 @@ IPAddress staticIP(192, 168, 1, 110); //replace with the IP address you want to 
 IPAddress gateway(192, 168, 1, 1); //replace with the gateway IP address of your network
 IPAddress subnet(255, 255, 255, 0); //replace with the subnet mask of your network
 ```
+[Contact me](mailto:waithakasam2017@gmail.com) if you need help with this.
