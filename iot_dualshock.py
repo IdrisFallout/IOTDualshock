@@ -3,8 +3,8 @@ import pygame
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# get the ip of your esp8266
-host = '192.168.137.110'
+# use (192.168.137.110, 192.168.1.110)
+host = '192.168.1.110'
 message = 0
 
 # connect to the server
@@ -29,7 +29,10 @@ def make_request(message):
     send = ""
     send += str(message[0]) + ":"
     if message[1] is not None:
-        send += str(message[1][0]) + "/" + str(message[1][1])
+        if str(message[1][0]) == "left_x" or str(message[1][0]) == "right_x" or str(message[1][0]) == "left_y" or str(message[1][0]) == "right_y":
+            return
+        else:
+            send += str(message[1][0]) + "/" + str(message[1][1])
     else:
         send += "None"
 
