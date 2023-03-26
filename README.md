@@ -43,3 +43,7 @@ The only change you need to make to the [python script](iot_dualshock.py) is to 
 #change this to the IP address of your ESP8266
 host = '192.168.1.110'
 ```
+### Schematic
+In this project I use the schematic diagram below.
+
+![SCHEMATICS...](screenshots/schematics.png?raw=true "Circuit diagram")
