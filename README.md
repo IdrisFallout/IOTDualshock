@@ -47,3 +47,7 @@ host = '192.168.1.110'
 In this project I use the schematic diagram below.
 
 ![SCHEMATICS...](screenshots/schematics.png?raw=true "Circuit diagram")
+
+## Usage
+After uploading the sketches to the necessary boards and connecting the devices as shown in the [schematic diagram](#schematic), run `pip install -r requirements.txt` to ensure you have all the necessary libraries.
+After everything is all set up, run the [iot_dualshock.py](iot_dualshock.py).
