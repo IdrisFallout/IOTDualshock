@@ -17,4 +17,4 @@ In this project I chose to use both the ESP8266 and the Arduino microcontroller.
 
 ## Installation
 ### ESP8266
-Upload [this sketch](IOT/Esp8266 code/Esp8266 code.ino) to the ESP8266. This sketch is a simple socket server that receives data from the client and then forwards it to the Arduino board over serial.
+Upload [this sketch](IOT/Esp8266%20code/Esp8266%20code.ino) to the ESP8266. This sketch is a simple socket server that receives data from the client and then forwards it to the Arduino board over serial.
