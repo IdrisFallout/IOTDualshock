@@ -38,7 +38,8 @@ IPAddress subnet(255, 255, 255, 0); //replace with the subnet mask of your netwo
 Upload [this sketch](IOT/Arduino%20code/Arduino%20code.ino) to the Arduino board. This sketch is a simple serial server that receives data from the ESP8266 and then processes it to control the devices.
 
 ### Python
-The only change you need to make to the [python script](iot_dualshock.py) is to change the IP address of the ESP8266 to the IP address of your ESP8266.
+The only change you need to make to the [python script](iot_dualshock.py) is to change the host variable to the IP address of your ESP8266.
 ```python
 #change this to the IP address of your ESP8266
 host = '192.168.1.110'
+```
