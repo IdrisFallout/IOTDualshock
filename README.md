@@ -51,3 +51,6 @@ In this project I use the schematic diagram below.
 ## Usage
 After uploading the sketches to the necessary boards and connecting the devices as shown in the [schematic diagram](#schematic), run `pip install -r requirements.txt` to ensure you have all the necessary libraries.
 After everything is all set up, run the [iot_dualshock.py](iot_dualshock.py).
+
+## Improvements
+- [ ] Map joystick controls to motors of even servos
