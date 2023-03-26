@@ -19,31 +19,15 @@ In this project I chose to use both the ESP8266 and the Arduino microcontroller.
 ### ESP8266
 Upload [this sketch](IOT/Esp8266%20code/Esp8266%20code.ino) to the ESP8266. This sketch is a simple socket server that receives data from the client and then forwards it to the Arduino board over serial.
 Before uploading the sketch, make sure to add your Wi-Fi credentials to the [credentials.h](IOT/Esp8266%20code/credentials.h) file.
-<!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-  </head>
-  <body>
-    <h1>Example README File</h1>
+```c++
+#ifndef CREDENTIALS_H
+#define CREDENTIALS_H
 
-    <p>Below is an example of C++ code with line numbering:</p>
+const char* ssid = "put your ssid here";
+const char* password = "put your password here";
 
-    <pre><code class="hljs hljs-ln">
- 1  #ifndef CREDENTIALS_H
- 2  #define CREDENTIALS_H
- 3  
- 4  const char* ssid = "put your ssid here";
- 5  const char* password = "put your password here";
- 6  
- 7  #endif
-    </code></pre>
-
-  </body>
-</html>
-
+#endif
+```
 Inorder to ensure use always use a static IP address, modify these lines of code for your network [here](IOT/Esp8266%20code/Esp8266%20code.ino).
 ```c++
 IPAddress staticIP(192, 168, 1, 110); //replace with the IP address you want to use
