@@ -53,4 +53,4 @@ After uploading the sketches to the necessary boards and connecting the devices 
 After everything is all set up, run the [iot_dualshock.py](iot_dualshock.py).
 
 ## Improvements
-- [ ] Map joystick controls to motors of even servos
+- [ ] Map joystick controls to motors or even servos
